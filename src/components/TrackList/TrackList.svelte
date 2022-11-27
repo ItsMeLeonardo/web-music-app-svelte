@@ -1,20 +1,8 @@
 <script lang="ts">
 	import TrackItem from './TrackItem.svelte'
+	import type { Track } from '$entities/track'
 
-	const tracks = [
-		{
-			name: 'The Beginning',
-			time: '3:00'
-		},
-		{
-			name: 'The Middle',
-			time: '3:00'
-		},
-		{
-			name: "Let's see what the night can do",
-			time: '3:00'
-		}
-	]
+	export let tracks: Track[]
 </script>
 
 <section class="trackList">
@@ -44,7 +32,7 @@
 
 	<ul class="list">
 		{#each tracks as track, index (track.name)}
-			<TrackItem active={index === 1} name={track.name} postion={index} time={track.time} />
+			<TrackItem active={index === 1} name={track.name} postion={index + 1} time={track.time} />
 		{/each}
 	</ul>
 </section>

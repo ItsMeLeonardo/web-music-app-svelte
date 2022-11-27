@@ -1,7 +1,7 @@
 <script lang="ts">
 	export let postion: number
 	export let name: string
-	export let time: string
+	export let time: number
 	export let active: boolean
 </script>
 

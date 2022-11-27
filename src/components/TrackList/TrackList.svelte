@@ -1,6 +1,7 @@
 <script lang="ts">
 	import TrackItem from './TrackItem.svelte'
 	import type { Track } from '$entities/track'
+	import { secondsToMinutes } from '$utils/time'
 
 	export let tracks: Track[]
 </script>
@@ -31,8 +32,13 @@
 	</header>
 
 	<ul class="list">
-		{#each tracks as track, index (track.name)}
-			<TrackItem active={index === 1} name={track.name} postion={index + 1} time={track.time} />
+		{#each tracks as track, index (track.id)}
+			<TrackItem
+				active={index === 1}
+				name={track.title}
+				postion={index + 1}
+				time={secondsToMinutes(track.duration)}
+			/>
 		{/each}
 	</ul>
 </section>
@@ -40,6 +46,11 @@
 <style lang="postcss">
 	.trackList {
 		width: 100%;
+		height: 100%;
+		max-height: 400px;
+		overflow: auto;
+		align-self: center;
+		padding: 0.5rem;
 
 		header {
 			display: flex;

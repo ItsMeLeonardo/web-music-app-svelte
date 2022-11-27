@@ -1,6 +1,7 @@
 import type { PageServerLoad } from './$types'
 
 import { searchTrack } from '$lib/server/track/service/search'
+import { trackAdapter } from '$lib/server/track/adapter'
 
 const keywords = [
 	'bad bunny',
@@ -12,7 +13,7 @@ const keywords = [
 	'lil pump',
 	'twice',
 	'ive',
-	'ozuna',
+
 	'j balvin',
 	'maluma',
 	'anuel aa',
@@ -22,11 +23,12 @@ const keywords = [
 	'maluma',
 	'anuelaa'
 ]
-const randomQuery = keywords[Math.floor(Math.random() * keywords.length)]
 
 export const load: PageServerLoad = async () => {
-	const searchResponse = await searchTrack(randomQuery)
-	const trackList = searchResponse.data.slice(0, 10)
+	const randomQuery = keywords[Math.floor(Math.random() * keywords.length)]
+
+	const searchResults = await searchTrack(randomQuery)
+	const trackList = searchResults.map((track) => trackAdapter(track))
 	return {
 		trackList
 	}

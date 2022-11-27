@@ -5,19 +5,13 @@
 
 	export let data: PageData
 
-	const trackList = data.trackList.map((track) => {
-		const minutes = (track.duration / 60).toFixed(2)
-
-		return {
-			name: track.title,
-			time: Number(minutes)
-		}
-	})
+	const trackList = data.trackList
+	const firstTrack = data.trackList[0]
 </script>
 
 <div class="wrap">
 	<section class="content">
-		<Player />
+		<Player poster={firstTrack.album.coverXl} />
 		<TrackList tracks={trackList} />
 	</section>
 </div>

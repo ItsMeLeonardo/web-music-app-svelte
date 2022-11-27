@@ -1,37 +1,86 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte'
+	import type { Events } from './type'
 	import PosterBodyBg from './PosterBodyBg.svelte'
+	export let poster: string
+
+	let isPlaying = false
+
+	const dispatch = createEventDispatcher<Events>()
+
+	const handlePause = () => {
+		dispatch('pause')
+	}
+
+	const handlePlay = () => {
+		dispatch('play')
+	}
+
+	const handlePlayBtn = () => {
+		if (isPlaying) {
+			handlePlay()
+		} else {
+			handlePause()
+		}
+	}
+
+	const handleShuffle = () => {
+		dispatch('shuffle', { state: true })
+	}
+
+	const handleLike = () => {
+		dispatch('like', { state: true, trackId: '1' })
+	}
+
+	const handlePrev = () => {
+		dispatch('prev')
+	}
+
+	const handleNext = () => {
+		dispatch('next')
+	}
+
+	const handleRepeat = () => {
+		dispatch('repeat', { state: true })
+	}
 </script>
 
 <section class="player">
 	<picture class="poster">
-		<img
-			src="https://i.pinimg.com/236x/ab/38/69/ab38691fb2e67fa2553f77042a128f3c.jpg"
-			alt="poster"
-		/>
-		<PosterBodyBg
-			poster="https://i.pinimg.com/236x/ab/38/69/ab38691fb2e67fa2553f77042a128f3c.jpg"
-		/>
-		<button class="likeBtn">
+		<img src={poster} alt={poster} />
+		<PosterBodyBg {poster} />
+		<button class="likeBtn" on:click={handleLike}>
 			<i class="gg-heart" />
 		</button>
 	</picture>
 
 	<div class="controls">
-		<button>
+		<button class="button" on:click={handleShuffle}>
 			<i class="gg-sync" />
 		</button>
 
-		<button>
+		<button class="button" on:click={handlePrev}>
 			<i class="gg-play-track-prev" />
 		</button>
-		<button class="playBtn">
-			<i class="gg-play-button" />
-		</button>
-		<button>
+		<label
+			role="button"
+			class="button playBtn"
+			class:isPlaying
+			on:click={handlePlayBtn}
+			on:keydown={handlePlayBtn}
+		>
+			{#if isPlaying}
+				<i class="gg-play-pause" />
+			{:else}
+				<i class="gg-play-button" />
+			{/if}
+			<input type="checkbox" hidden bind:checked={isPlaying} />
+		</label>
+		<button class="button" on:click={handleNext}>
 			<i class="gg-play-track-next" />
 		</button>
 
-		<button>
+		<button class="button" on:click={handleRepeat}>
 			<i class="gg-repeat" />
 		</button>
 	</div>
@@ -49,6 +98,7 @@
 		margin: 0 auto;
 		background: rgb(0 0 0 / 3%);
 		border-radius: 1rem;
+		align-self: center;
 		@media screen and (min-width: 768px) {
 			width: 65%;
 		}
@@ -88,21 +138,35 @@
 			width: 100%;
 			justify-content: space-between;
 
-			button {
+			.button {
 				--size: 2rem;
 				width: var(--size);
 				height: var(--size);
 				display: flex;
 				align-items: center;
 				justify-content: center;
+				cursor: pointer;
 			}
 
 			.playBtn {
-				width: auto;
-				height: auto;
 				aspect-ratio: 1;
 				border-radius: 50%;
-				border: 2px solid var(--primary);
+				background: var(--bg);
+				&.isPlaying {
+					animation: play 1s infinite;
+				}
+
+				@keyframes play {
+					0% {
+						box-shadow: 0 0 0 0 var(--light-25);
+					}
+					50% {
+						box-shadow: 0 0 0 0.5rem var(--light-25);
+					}
+					100% {
+						box-shadow: 0 0 0 0 var(--light-25);
+					}
+				}
 			}
 		}
 	}

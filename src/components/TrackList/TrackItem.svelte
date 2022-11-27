@@ -1,15 +1,27 @@
 <script lang="ts">
-	export let postion: number
-	export let name: string
-	export let time: number | string
+	import { createEventDispatcher } from 'svelte'
+	import { secondsToMinutes } from '$utils/time'
+
+	import type { Track } from '$entities/track'
+	import type { Events } from './type'
+
+	export let track: Track
 	export let active: boolean
+	export let position: number
+
+	const dispatch = createEventDispatcher<Events>()
+
+	const handleClick = () => {
+		if (active) return
+		dispatch('play', { id: track.id })
+	}
 </script>
 
 <li>
-	<button class="item" class:active>
-		<span class="position">{postion}</span>
-		<p class="name">{name}</p>
-		<span class="time">{time}</span>
+	<button class="item" class:active on:click={handleClick}>
+		<span class="position">{position}</span>
+		<p class="name">{track.title}</p>
+		<span class="time">{secondsToMinutes(track.duration)}</span>
 	</button>
 </li>
 

@@ -1,18 +1,20 @@
 <script lang="ts">
+	import { player as PlayerStore } from '$store/player'
+
 	import Player from '$components/Player/Player.svelte'
 	import TrackList from '$components/TrackList/TrackList.svelte'
+
 	import type { PageData } from './$types'
 
 	export let data: PageData
 
-	const trackList = data.trackList
-	const firstTrack = data.trackList[0]
+	$: PlayerStore.changeTrack(data.trackList[0])
 </script>
 
 <div class="wrap">
 	<section class="content">
-		<Player poster={firstTrack.album.coverXl} />
-		<TrackList tracks={trackList} />
+		<Player />
+		<TrackList tracks={data.trackList} />
 	</section>
 </div>
 

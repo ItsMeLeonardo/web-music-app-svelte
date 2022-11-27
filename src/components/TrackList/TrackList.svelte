@@ -1,7 +1,8 @@
 <script lang="ts">
+	import { player as PlayerStore } from '$store/player'
+
 	import TrackItem from './TrackItem.svelte'
 	import type { Track } from '$entities/track'
-	import { secondsToMinutes } from '$utils/time'
 
 	export let tracks: Track[]
 </script>
@@ -34,10 +35,10 @@
 	<ul class="list">
 		{#each tracks as track, index (track.id)}
 			<TrackItem
-				active={index === 1}
-				name={track.title}
-				postion={index + 1}
-				time={secondsToMinutes(track.duration)}
+				active={$PlayerStore.track?.id === track.id}
+				position={index + 1}
+				{track}
+				on:play={() => PlayerStore.changeTrack(track)}
 			/>
 		{/each}
 	</ul>

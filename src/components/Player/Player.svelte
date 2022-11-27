@@ -1,8 +1,20 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte'
-	import type { Events } from './type'
+	import { createEventDispatcher, onDestroy } from 'svelte'
+
+	import { player as PlayerStore } from '$store/player'
+
 	import PosterBodyBg from './PosterBodyBg.svelte'
-	export let poster: string
+
+	import type { Events } from './type'
+	import type { Track } from '$entities/track'
+
+	let currentTrack: Track
+
+	const unsubscribe = PlayerStore.subscribe(({ track }) => {
+		if (track) {
+			currentTrack = track
+		}
+	})
 
 	let isPlaying = false
 
@@ -43,12 +55,14 @@
 	const handleRepeat = () => {
 		dispatch('repeat', { state: true })
 	}
+
+	onDestroy(unsubscribe)
 </script>
 
 <section class="player">
 	<picture class="poster">
-		<img src={poster} alt={poster} />
-		<PosterBodyBg {poster} />
+		<img src={currentTrack.album.coverBig} alt={currentTrack.title} />
+		<PosterBodyBg poster={currentTrack.album.coverBig} />
 		<button class="likeBtn" on:click={handleLike}>
 			<i class="gg-heart" />
 		</button>

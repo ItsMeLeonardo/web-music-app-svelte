@@ -16,7 +16,8 @@ const config = {
 		alias: {
 			'$components/*': resolve('./src/components/*'),
 			'$entities/*': resolve('./src/entities/*'),
-			'$utils/*': resolve('./src/utils/*')
+			'$utils/*': resolve('./src/utils/*'),
+			'$store/*': resolve('./src/store/*')
 		}
 	}
 }

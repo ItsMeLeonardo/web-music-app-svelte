@@ -4,24 +4,25 @@ import { searchTrack } from '$lib/server/track/service/search'
 import { trackAdapter } from '$lib/server/track/adapter'
 
 const keywords = [
-	'bad bunny',
-	'black pink',
+	/* 'bad bunny',
+	
 	'eminem',
 	'kanye west',
 	'drake',
 	'lil wayne',
-	'lil pump',
+	'lil pump', */
+	'black pink',
 	'twice',
-	'ive',
+	'ive'
 
-	'j balvin',
+	/* 	'j balvin',
 	'maluma',
 	'anuel aa',
 	'badbunny',
 	'ozuna',
 	'jbalvin',
 	'maluma',
-	'anuelaa'
+	'anuelaa' */
 ]
 
 export const load: PageServerLoad = async () => {

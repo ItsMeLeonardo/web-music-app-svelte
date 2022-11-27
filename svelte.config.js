@@ -15,7 +15,8 @@ const config = {
 		adapter: adapter(),
 		alias: {
 			'$components/*': resolve('./src/components/*'),
-			'$entities/*': resolve('./src/entities/*')
+			'$entities/*': resolve('./src/entities/*'),
+			'$utils/*': resolve('./src/utils/*')
 		}
 	}
 }

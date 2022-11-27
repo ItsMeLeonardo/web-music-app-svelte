@@ -1,13 +1,13 @@
 import { api } from '$lib/server/api'
 
-import type { SearchResponse } from '$entities/index'
+import type { SearchTrackResponse } from '$lib/server/track/type'
 
 export const searchTrack = async (query: string) => {
-	const { data } = await api.get<SearchResponse>('/search', {
+	const { data } = await api.get<SearchTrackResponse>('/search', {
 		params: {
 			q: query
 		}
 	})
 
-	return data
+	return data.data
 }

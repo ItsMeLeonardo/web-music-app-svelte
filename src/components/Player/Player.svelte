@@ -10,49 +10,59 @@
 
 	let currentTrack: Track
 
-	const unsubscribe = PlayerStore.subscribe(({ track }) => {
-		if (track) {
-			currentTrack = track
-		}
-	})
-
-	let isPlaying = false
+	let isPlaying: boolean
+	let audio: HTMLAudioElement
 
 	const dispatch = createEventDispatcher<Events>()
 
-	const handlePause = () => {
+	const unsubscribe = PlayerStore.subscribe(({ track }) => {
+		if (track) {
+			currentTrack = track
+			handleChangeTrack()
+		}
+	})
+
+	function handleChangeTrack() {
+		handlePause()
+		isPlaying = false
+	}
+
+	function handlePause() {
 		dispatch('pause')
+		if (audio) audio.pause()
 	}
 
-	const handlePlay = () => {
+	function handlePlay() {
 		dispatch('play')
+
+		if (audio) audio.play()
 	}
 
-	const handlePlayBtn = () => {
+	function handlePlayBtn() {
 		if (isPlaying) {
-			handlePlay()
-		} else {
 			handlePause()
+		} else {
+			handlePlay()
 		}
 	}
 
-	const handleShuffle = () => {
+	function handleShuffle() {
 		dispatch('shuffle', { state: true })
 	}
 
-	const handleLike = () => {
+	function handleLike() {
 		dispatch('like', { state: true, trackId: '1' })
 	}
 
-	const handlePrev = () => {
+	function handlePrev() {
 		dispatch('prev')
 	}
 
-	const handleNext = () => {
+	function handleNext() {
 		dispatch('next')
 	}
 
-	const handleRepeat = () => {
+	function handleRepeat() {
 		dispatch('repeat', { state: true })
 	}
 
@@ -67,6 +77,8 @@
 			<i class="gg-heart" />
 		</button>
 	</picture>
+
+	<audio controls src={currentTrack.preview} hidden bind:this={audio} volume={0.5} />
 
 	<div class="controls">
 		<button class="button" on:click={handleShuffle}>

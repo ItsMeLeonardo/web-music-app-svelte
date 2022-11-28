@@ -1,14 +1,23 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte'
 	import { player as PlayerStore } from '$store/player'
+	import { trackList as trackListStore } from '$store/trackList'
 
 	import TrackItem from './TrackItem.svelte'
 	import type { Track } from '$entities/track'
+	import SearchInput from '$components/SearchInput/SearchInput.svelte'
 
-	export let tracks: Track[]
+	let tracks: Track[] = []
+
+	const unsubscribe = trackListStore.subscribe((value) => {
+		tracks = value
+	})
+
+	onDestroy(unsubscribe)
 </script>
 
 <section class="trackList">
-	<header>
+	<!-- 	<header>
 		<div class="data">
 			<h3 class="title">Know.</h3>
 			<div class="details">
@@ -30,8 +39,8 @@
 				<span class="star" />
 			</div>
 		</div>
-	</header>
-
+	</header> -->
+	<SearchInput />
 	<ul class="list">
 		{#each tracks as track, index (track.id)}
 			<TrackItem
@@ -53,7 +62,7 @@
 		align-self: center;
 		padding: 0.5rem;
 
-		header {
+		/* 	header {
 			display: flex;
 			justify-content: space-between;
 
@@ -112,7 +121,7 @@
 					}
 				}
 			}
-		}
+		} */
 
 		.list {
 			display: flex;

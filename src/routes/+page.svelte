@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { player as PlayerStore } from '$store/player'
+	import { player as playerStore } from '$store/player'
+	import { trackList as trackListStore } from '$store/trackList'
 
 	import Player from '$components/Player/Player.svelte'
 	import TrackList from '$components/TrackList/TrackList.svelte'
@@ -8,13 +9,14 @@
 
 	export let data: PageData
 
-	$: PlayerStore.changeTrack(data.trackList[0])
+	$: trackListStore.setTrackList(data.trackList)
+	$: playerStore.changeTrack($trackListStore[0])
 </script>
 
 <div class="wrap">
 	<section class="content">
 		<Player />
-		<TrackList tracks={data.trackList} />
+		<TrackList />
 	</section>
 </div>
 

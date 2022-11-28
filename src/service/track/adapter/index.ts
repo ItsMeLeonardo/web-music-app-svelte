@@ -1,8 +1,8 @@
-import { albumAdapter } from '$lib/server/album/adapter'
+import { albumAdapter } from '$service/album/adapter'
 
 import type { Track, TrackDetail } from '$entities/track'
 import type { SearchTrackResultResponse, TrackResponseDetail } from '../type'
-import { artistAdapter } from '$lib/server/artist/adapter'
+import { artistAdapter } from '$service/artist/adapter'
 
 export const trackAdapter = (track: SearchTrackResultResponse): Track => {
 	const { id, title, title_short, title_version, link, duration, rank, preview } = track

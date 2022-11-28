@@ -1,4 +1,4 @@
-import { artistAdapter } from '$lib/server/artist/adapter'
+import { artistAdapter } from '$service/artist/adapter'
 
 import type { AlbumDetail, Album } from '$entities/album'
 import type { AlbumDetailResponse, AlbumResponse } from '../type'

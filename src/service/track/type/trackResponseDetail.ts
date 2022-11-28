@@ -1,5 +1,5 @@
-import type { ArtistResponse } from '$lib/server/artist/type'
-import type { AlbumResponse } from '$lib/server/album/type'
+import type { ArtistResponse } from '$service/artist/type'
+import type { AlbumResponse } from '$service/album/type'
 
 export interface TrackResponseDetail {
 	id: number

@@ -10,6 +10,5 @@ export const searchTrack = async (query: string) => {
 			q: query
 		}
 	})
-
 	return data.data.map((track) => trackAdapter(track))
 }

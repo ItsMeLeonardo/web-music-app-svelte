@@ -20,7 +20,10 @@
 <li>
 	<button class="item" class:active on:click={handleClick}>
 		<span class="position">{position}</span>
-		<p class="name">{track.title}</p>
+		<div class="data">
+			<p class="name">{track.title}</p>
+			<p class="artistName">{track.artist.name}</p>
+		</div>
 		<span class="time">{secondsToMinutes(track.duration)}</span>
 	</button>
 </li>
@@ -31,20 +34,29 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		padding: 1rem;
-		gap: 0.5rem;
+		padding: 0.75rem;
+		gap: 1rem;
 		border-radius: 0.5rem;
 		transition: background-color 0.25s ease-in-out;
 
+		.data {
+			display: flex;
+			flex-direction: column;
+			width: 100%;
+		}
+
 		.position,
 		.name,
-		.time {
+		.data,
+		.time,
+		.artistName {
 			font-size: 0.8rem;
 			color: var(--text);
 			margin: 0;
 		}
 
-		.name {
+		.name,
+		.artistName {
 			flex-grow: 1;
 			width: 100%;
 			overflow: hidden;
@@ -53,11 +65,15 @@
 			text-align: start;
 			transition: color 0.2s ease;
 		}
+		.artistName {
+			font-size: 0.7rem;
+		}
 
 		&.active {
 			background: var(--text);
 			.position,
 			.name,
+			.artistName,
 			.time {
 				color: white;
 				font-weight: bold;
@@ -67,6 +83,7 @@
 			background: var(--text);
 			.position,
 			.name,
+			.artistName,
 			.time {
 				color: white;
 			}

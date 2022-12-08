@@ -10,7 +10,7 @@
 
 	let currentTrack: Track
 
-	let isPlaying: boolean
+	let isPlaying = false
 	let audio: HTMLAudioElement
 
 	const dispatch = createEventDispatcher<Events>()
@@ -24,17 +24,20 @@
 
 	function handleChangeTrack() {
 		handlePause()
-		isPlaying = false
+		setTimeout(() => {
+			handlePlay()
+		}, 100)
 	}
 
 	function handlePause() {
+		isPlaying = false
 		dispatch('pause')
 		if (audio) audio.pause()
 	}
 
 	function handlePlay() {
+		isPlaying = true
 		dispatch('play')
-
 		if (audio) audio.play()
 	}
 
@@ -66,6 +69,10 @@
 		dispatch('repeat', { state: true })
 	}
 
+	function handleEndTrack() {
+		handlePause()
+	}
+
 	onDestroy(unsubscribe)
 </script>
 
@@ -78,7 +85,14 @@
 		</button>
 	</picture>
 
-	<audio controls src={currentTrack.preview} hidden bind:this={audio} volume={0.5} />
+	<audio
+		controls
+		src={currentTrack.preview}
+		hidden
+		bind:this={audio}
+		volume={0.5}
+		on:ended={handleEndTrack}
+	/>
 
 	<div class="controls">
 		<button class="button" on:click={handleShuffle}>
@@ -88,20 +102,13 @@
 		<button class="button" on:click={handlePrev}>
 			<i class="gg-play-track-prev" />
 		</button>
-		<label
-			role="button"
-			class="button playBtn"
-			class:isPlaying
-			on:click={handlePlayBtn}
-			on:keydown={handlePlayBtn}
-		>
+		<button class="button playBtn" class:isPlaying on:click={handlePlayBtn}>
 			{#if isPlaying}
 				<i class="gg-play-pause" />
 			{:else}
 				<i class="gg-play-button" />
 			{/if}
-			<input type="checkbox" hidden bind:checked={isPlaying} />
-		</label>
+		</button>
 		<button class="button" on:click={handleNext}>
 			<i class="gg-play-track-next" />
 		</button>

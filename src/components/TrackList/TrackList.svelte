@@ -13,6 +13,10 @@
 		tracks = value
 	})
 
+	const handleChangeTrack = (track: Track) => {
+		PlayerStore.changeTrack(track)
+	}
+
 	onDestroy(unsubscribe)
 </script>
 
@@ -47,7 +51,7 @@
 				active={$PlayerStore.track?.id === track.id}
 				position={index + 1}
 				{track}
-				on:play={() => PlayerStore.changeTrack(track)}
+				on:play={() => handleChangeTrack(track)}
 			/>
 		{/each}
 	</ul>
@@ -126,7 +130,7 @@
 		.list {
 			display: flex;
 			flex-direction: column;
-			gap: 0.5rem;
+			gap: 0.25rem;
 			padding: 0;
 		}
 	}

@@ -31,7 +31,8 @@
 <style lang="postcss">
 	.item {
 		width: 100%;
-		display: flex;
+		display: grid;
+		grid-template-columns: 0.25fr 3fr 0.25fr;
 		justify-content: space-between;
 		align-items: center;
 		padding: 0.75rem;
@@ -42,7 +43,6 @@
 		.data {
 			display: flex;
 			flex-direction: column;
-			width: 100%;
 		}
 
 		.position,
@@ -57,8 +57,8 @@
 
 		.name,
 		.artistName {
+			max-width: 360px;
 			flex-grow: 1;
-			width: 100%;
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;

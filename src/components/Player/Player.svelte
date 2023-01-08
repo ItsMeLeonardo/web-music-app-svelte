@@ -11,6 +11,7 @@
 	let currentTrack: Track
 
 	let isPlaying = false
+	let muted = true
 	let audio: HTMLAudioElement
 
 	const dispatch = createEventDispatcher<Events>()
@@ -73,6 +74,10 @@
 		handlePause()
 	}
 
+	function toggleMute() {
+		muted = !muted
+	}
+
 	onDestroy(unsubscribe)
 </script>
 
@@ -80,6 +85,11 @@
 	<picture class="poster">
 		<img src={currentTrack.album.coverBig} alt={currentTrack.title} />
 		<PosterBodyBg poster={currentTrack.album.coverBig} />
+
+		<button class="muteBtn" on:click={toggleMute} class:muted>
+			<i class="gg-headset" />
+		</button>
+
 		<button class="likeBtn" on:click={handleLike}>
 			<i class="gg-heart" />
 		</button>
@@ -89,8 +99,9 @@
 		controls
 		src={currentTrack.preview}
 		hidden
-		bind:this={audio}
 		volume={0.5}
+		{muted}
+		bind:this={audio}
 		on:ended={handleEndTrack}
 	/>
 
@@ -145,16 +156,31 @@
 			background: white;
 			box-shadow: 1px 11px 1rem rgb(14 14 14 / 25%);
 
-			.likeBtn {
+			.likeBtn,
+			.muteBtn {
 				--size: 2rem;
 				position: absolute;
-				top: 0.5rem;
-				right: 0.5rem;
 				width: var(--size);
 				height: var(--size);
 				display: flex;
 				align-items: center;
 				justify-content: center;
+				background: color-mod(var(--white) a(0.5));
+				backdrop-filter: blur(0.5rem);
+				border-radius: 50%;
+			}
+			.likeBtn {
+				top: 0.5rem;
+				right: 0.5rem;
+			}
+			.muteBtn {
+				top: 0.5rem;
+				left: 0.5rem;
+				background: var(--white);
+
+				&.muted {
+					opacity: 0.5;
+				}
 			}
 
 			img {
